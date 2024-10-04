@@ -1,27 +1,27 @@
-# Hotel Megalux Landing Page
+# 🏨 Hotel Megalux Landing Page
 
 Selamat datang di repositori landing page Hotel Megalux! Proyek ini merupakan sebuah website satu halaman (single-page application) yang menampilkan informasi tentang Hotel Megalux, sebuah hotel mewah yang berlokasi di jantung kota Jakarta, Indonesia.
 
-## Deskripsi
+## 📝 Deskripsi
 
 Hotel Megalux adalah destinasi penginapan mewah yang menawarkan pengalaman menginap tak terlupakan dengan fasilitas lengkap dan layanan terbaik. Landing page ini dirancang untuk memberikan gambaran komprehensif tentang hotel kepada calon tamu.
 
-## Fitur
+## ✨ Fitur
 
-- Desain responsif yang menyesuaikan dengan berbagai ukuran layar
-- Mode gelap (dark mode) yang dapat diaktifkan sesuai preferensi pengguna
-- Animasi scroll dan transisi halus untuk meningkatkan pengalaman pengguna
-- Informasi lengkap tentang kamar, fasilitas, dan layanan hotel
-- Galeri foto yang menampilkan keindahan hotel
-- Formulir kontak untuk reservasi atau pertanyaan
+- 📱 Desain responsif yang menyesuaikan dengan berbagai ukuran layar
+- 🌓 Mode gelap (dark mode) yang dapat diaktifkan sesuai preferensi pengguna
+- 🎭 Animasi scroll dan transisi halus untuk meningkatkan pengalaman pengguna
+- 🛏️ Informasi lengkap tentang kamar, fasilitas, dan layanan hotel
+- 🖼️ Galeri foto yang menampilkan keindahan hotel
+- 📝 Formulir kontak untuk reservasi atau pertanyaan
 
-## Teknologi yang Digunakan
+## 🛠️ Teknologi yang Digunakan
 
 - HTML5
 - CSS3 (dengan Tailwind CSS untuk styling)
 - JavaScript (dengan Alpine.js untuk interaktivitas)
 
-## Cara Penggunaan
+## 🚀 Cara Penggunaan
 
 Untuk menggunakan dan mengembangkan proyek ini di mesin lokal Anda, ikuti langkah-langkah berikut:
 
@@ -45,7 +45,7 @@ Untuk menggunakan dan mengembangkan proyek ini di mesin lokal Anda, ikuti langka
 
 5. Mulai edit file HTML, CSS, atau JavaScript sesuai kebutuhan Anda. Tailwind CSS akan secara otomatis mengompilasi ulang file CSS setiap kali Anda menyimpan perubahan.
 
-## Struktur Proyek
+## 📁 Struktur Proyek
 
 - `index.html`: File HTML utama
 - `src/input.css`: File input Tailwind CSS
@@ -53,14 +53,14 @@ Untuk menggunakan dan mengembangkan proyek ini di mesin lokal Anda, ikuti langka
 - `src/img/`: Direktori untuk menyimpan gambar
 - `tailwind.config.js`: File konfigurasi Tailwind CSS
 
-## Kontribusi
+## 🤝 Kontribusi
 
 Kami sangat menghargai kontribusi untuk meningkatkan landing page ini. Jika Anda memiliki saran atau menemukan bug, silakan buat issue atau pull request.
 
-## Lisensi
+## 📄 Lisensi
 
 Proyek ini dilisensikan di bawah [MIT License](LICENSE).
 
-## Kontak
+## 📞 Kontak
 
 Untuk informasi lebih lanjut, silakan hubungi tim pengembang di developer@hotelmegalux.com.
