@@ -14,12 +14,17 @@ Hotel Megalux adalah destinasi penginapan mewah yang menawarkan pengalaman mengi
 - 🛏️ Informasi lengkap tentang kamar, fasilitas, dan layanan hotel
 - 🖼️ Galeri foto yang menampilkan keindahan hotel
 - 📝 Formulir kontak untuk reservasi atau pertanyaan
+- 🌟 Promo kilat yang muncul secara dinamis
+- 🔝 Tombol "Kembali ke Atas" yang responsif
+- 🗺️ Peta lokasi hotel terintegrasi
+- 💬 Bagian FAQ yang interaktif
 
 ## 🛠️ Teknologi yang Digunakan
 
-- HTML5
-- CSS3 (dengan Tailwind CSS untuk styling)
-- JavaScript (dengan Alpine.js untuk interaktivitas)
+- 🌐 HTML5
+- 🎨 CSS3 (dengan Tailwind CSS untuk styling)
+- 📜 JavaScript (dengan Alpine.js untuk interaktivitas)
+- 🗺️ Google Maps API untuk peta lokasi
 
 ## 🚀 Cara Penggunaan
 
@@ -51,7 +56,16 @@ Untuk menggunakan dan mengembangkan proyek ini di mesin lokal Anda, ikuti langka
 - `src/input.css`: File input Tailwind CSS
 - `src/output.css`: File output Tailwind CSS (dihasilkan otomatis, jangan edit secara manual)
 - `src/img/`: Direktori untuk menyimpan gambar
+- `src/script.js`: File JavaScript untuk fungsionalitas tambahan
 - `tailwind.config.js`: File konfigurasi Tailwind CSS
+
+## 🔧 Fitur Interaktif
+
+- Mode Gelap: Pengguna dapat beralih antara mode terang dan gelap.
+- FAQ Accordion: Bagian FAQ menggunakan accordion untuk menampilkan/menyembunyikan jawaban.
+- Modal Galeri: Gambar dapat diperbesar dalam modal untuk tampilan yang lebih detail.
+- Promo Kilat: Notifikasi promo muncul setelah beberapa waktu untuk menarik perhatian pengguna.
+- Tombol Kembali ke Atas: Muncul saat pengguna menggulir ke bawah untuk navigasi cepat ke atas halaman.
 
 ## 🤝 Kontribusi
 

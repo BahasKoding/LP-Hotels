@@ -16,22 +16,67 @@
   <link rel="canonical" href="https://www.hotelmegalux.com">
   <link href="src/output.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <script>
-    // Add this script to handle dark mode
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  </script>
-
+  <script src="src/script.js"></script>
   <style>
+      @media (max-width: 640px) {
+        #promoModal .sm\:flex-col {
+          flex-direction: column;
+        }
+        #promoModal .sm\:items-center {
+          align-items: center;
+        }
+        #promoModal .sm\:w-auto {
+          width: 100%;
+        }
+      }
     @keyframes spin-slow {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
     .animate-spin-slow {
       animation: spin-slow 20s linear infinite;
+    }
+      /* Tambahkan ini jika Anda belum memiliki kelas bg-gradient-radial di Tailwind config */
+    .bg-gradient-radial {
+      background-image: radial-gradient(var(--tw-gradient-stops));
+    }
+
+    @keyframes pulse-shadow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(165, 225, 245, 0.7);
+      }
+      50% {
+        box-shadow: 0 0 0 15px rgba(165, 225, 245, 0);
+      }
+    }
+
+    .animate-pulse-shadow {
+      animation: pulse-shadow 2s infinite;
+    }
+
+    .animate-pulse-shadow:hover {
+      animation: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out;
+    }
+    @keyframes pulse-scale {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+      }
+    }
+
+    .animate-pulse-scale {
+      animation: pulse-scale 2s infinite;
     }
   </style>
 </head>
@@ -108,26 +153,33 @@
     </div>
   </nav>
 
-  <header id="home" class="bg-cover bg-center h-screen flex items-center justify-center" style="background-image: url('src/img/hotel.jpeg');">
-    <div class="text-center text-[#f7ffff] bg-[#0f0f19] bg-opacity-60 dark:bg-[#f7ffff] dark:bg-opacity-60 dark:text-[#0f0f19] p-4 sm:p-8 rounded-lg max-w-3xl mx-4">
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 animate-fade-in-down">
+  <header id="home" class="relative bg-cover bg-center h-screen flex items-center justify-center">
+    <picture>
+      <source srcset="src/img/luxury.jpg" media="(min-width: 1024px)">
+      <source srcset="src/img/luxury.jpg" media="(min-width: 640px)">
+      <img src="src/img/luxury.jpg" alt="Hotel Megalux Luxury" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+    </picture>
+    <div class="absolute inset-0 bg-black opacity-40"></div>
+    <div class="relative z-10 text-center text-[#f7ffff] p-4 sm:p-8 max-w-3xl mx-4">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 animate-fade-in-down drop-shadow-lg">
         Rasakan Kemewahan, Kenyamanan, dan Keindahan di Hotel Kami
       </h1>
-      <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-10 animate-fade-in-up">
+      <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-10 animate-fade-in-up drop-shadow-md">
         Nikmati pengalaman menginap yang tak terlupakan dengan fasilitas lengkap dan layanan terbaik.
       </p>
-      <a href="#" class="inline-block bg-[#a5e1f5] text-[#0f0f19] text-base sm:text-lg md:text-xl font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-full hover:bg-[#ebf5ff] hover:text-[#233449] transition duration-300 animate-pulse shadow-lg">
-        Pesan Sekarang dan Dapatkan Diskon 30%
+      <a href="#" class="inline-block bg-[#a5e1f5] text-[#0f0f19] text-sm sm:text-base md:text-lg font-bold py-2 px-4 sm:py-3 sm:px-6 md:py-4 md:px-8 rounded-full hover:bg-[#ebf5ff] hover:text-[#233449] transition duration-300 animate-pulse shadow-lg">
+        <span class="block sm:hidden">Pesan & Diskon 30%</span>
+        <span class="hidden sm:block">Pesan Sekarang dan Dapatkan Diskon 30%</span>
       </a>
     </div>
   </header>
 
   <main>
     <!-- About Us Section -->
-    <section id="about" class="py-20 bg-gradient-to-b from-[#ebf5ff] to-[#f7ffff] dark:from-[#1a2736] dark:to-[#0f0f19]" x-data="{ showMore: false }">
+    <section id="about" class="py-20 bg-gradient-to-b from-[#f0f7ff] to-[#ffffff] dark:from-[#1a2736] dark:to-[#0f0f19]" x-data="{ showMore: false }">
       <div class="container mx-auto px-4 max-w-4xl">
-        <h2 class="text-5xl font-bold mb-10 text-center text-[#233449] dark:text-[#f7ffff] leading-tight">Kemewahan Tanpa Kompromi di Jantung Jakarta</h2>
-        <div class="text-lg text-[#233449] dark:text-[#f7ffff] space-y-6">
+        <h2 class="text-5xl font-bold mb-10 text-center text-[#1a2736] dark:text-[#f0f7ff] leading-tight">Kemewahan Tanpa Kompromi di Jantung Jakarta</h2>
+        <div class="text-lg text-[#2c3e50] dark:text-[#d1d5db] space-y-6">
           <p class="mb-6 text-center">
             Selamat datang di Hotel Megalux, surga urban yang memadukan kemewahan dan kenyamanan. Kami bukan sekadar tempat menginap, tapi destinasi yang menciptakan kenangan tak terlupakan.
           </p>
@@ -140,141 +192,140 @@
             <p class="mb-6">
               Setiap sudut Hotel Megalux dirancang untuk memanjakan indera Anda. Dari lobi yang megah hingga kamar-kamar yang elegan, kami memastikan setiap detail mencerminkan standar bintang 5 kami.
             </p>
-            <h3 class="text-3xl font-semibold mb-6 text-center text-[#233449]">Mengapa Hotel Megalux Istimewa?</h3>
+            <h3 class="text-3xl font-semibold mb-6 text-center text-[#1a2736] dark:text-[#f0f7ff]">Mengapa Hotel Megalux Istimewa?</h3>
             <ul class="list-none space-y-6 mb-8">
               <li class="flex items-start">
-                <svg class="w-6 h-6 text-[#a5e1f5] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <svg class="w-6 h-6 text-[#3b82f6] dark:text-[#60a5fa] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 <div>
-                  <strong class="text-xl text-[#233449] block mb-1">Lokasi Strategis</strong>
+                  <strong class="text-xl text-[#1a2736] dark:text-[#f0f7ff] block mb-1">Lokasi Strategis</strong>
                   <span>Berada di jantung Jakarta, dekat dengan pusat bisnis dan destinasi wisata utama. Nikmati kemudahan akses ke seluruh kota.</span>
                 </div>
               </li>
               <li class="flex items-start">
-                <svg class="w-6 h-6 text-[#a5e1f5] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <svg class="w-6 h-6 text-[#3b82f6] dark:text-[#60a5fa] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 <div>
-                  <strong class="text-xl text-[#233449] block mb-1">Fasilitas Kelas Dunia</strong>
+                  <strong class="text-xl text-[#1a2736] dark:text-[#f0f7ff] block mb-1">Fasilitas Kelas Dunia</strong>
                   <span>Manjakan diri Anda di spa mewah kami, berenang di kolam infinity dengan pemandangan kota, atau tetap bugar di pusat kebugaran state-of-the-art kami.</span>
                 </div>
               </li>
               <li class="flex items-start">
-                <svg class="w-6 h-6 text-[#a5e1f5] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <svg class="w-6 h-6 text-[#3b82f6] dark:text-[#60a5fa] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 <div>
-                  <strong class="text-xl text-[#233449] block mb-1">Kuliner Terbaik</strong>
+                  <strong class="text-xl text-[#1a2736] dark:text-[#f0f7ff] block mb-1">Kuliner Terbaik</strong>
                   <span>Nikmati pengalaman bersantap kelas atas di restoran kami yang dikelola oleh koki bintang Michelin. Setiap hidangan adalah sebuah karya seni.</span>
                 </div>
               </li>
             </ul>
-            <p class="italic text-xl text-center text-[#233449]">
+            <p class="italic text-xl text-center text-[#2c3e50] dark:text-[#d1d5db]">
               "Di Hotel Megalux, kami tidak hanya menyediakan tempat untuk menginap, tapi menciptakan kenangan yang akan Anda hargai seumur hidup."
             </p>
           </div>
         </div>
         <div class="text-center mt-10">
-          <button @click="showMore = !showMore" class="bg-[#233449] text-[#f7ffff] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#a5e1f5] hover:text-[#233449] transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#a5e1f5] focus:ring-opacity-50">
+          <button @click="showMore = !showMore" 
+                  class="bg-[#233449] text-[#f7ffff] px-8 py-4 rounded-full text-lg font-semibold 
+                        hover:bg-[#a5e1f5] hover:text-[#233449] transition duration-300 
+                        transform hover:scale-105 focus:outline-none focus:ring-2 
+                        focus:ring-[#a5e1f5] focus:ring-opacity-50
+                        animate-pulse-shadow">
             <span x-text="showMore ? 'Tutup' : 'Pelajari Lebih Lanjut'"></span>
           </button>
         </div>
       </div>
     </section>
 
-
-    <!-- Rooms and Suites Section -->
-    <section id="rooms" class="py-20 bg-gradient-to-b from-[#f7ffff] to-[#ebf5ff] dark:from-[#0f0f19] dark:to-[#1a2736]" x-data="{ activeRoom: 'standard' }">
-      <div class="container mx-auto px-4 max-w-6xl">
-        <h2 class="text-5xl font-bold mb-10 text-center text-[#233449] dark:text-[#f7ffff] leading-tight">Temukan Surga Pribadi Anda</h2>
-        <p class="text-xl mb-12 text-center text-[#233449] dark:text-[#f7ffff] max-w-3xl mx-auto">
+    <section id="rooms" class="relative py-12 sm:py-16 md:py-20 overflow-hidden bg-gradient-to-b from-[#f7ffff] to-[#ebf5ff] dark:from-[#0f0f19] dark:to-[#1a2736]" x-data="{ activeRoom: 'standard' }">
+      <!-- Blob effects -->
+      <div class="absolute top-1/4 left-0 -translate-x-1/2 w-[500px] h-[500px]">
+        <div class="absolute inset-0 bg-gradient-radial from-[#a5e1f5] via-[#ebf5ff] to-transparent opacity-50 blur-3xl dark:from-[#4a9eff] dark:via-[#1a2736] dark:to-transparent dark:opacity-40"></div>
+      </div>
+      <div class="absolute bottom-1/4 right-0 translate-x-1/2 w-[500px] h-[500px]">
+        <div class="absolute inset-0 bg-gradient-radial from-[#ffa5e1] via-[#fff7f7] to-transparent opacity-50 blur-3xl dark:from-[#ff4a9e] dark:via-[#361a27] dark:to-transparent dark:opacity-40"></div>
+      </div>
+    
+      <div class="container relative mx-auto px-4 max-w-6xl">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 md:mb-10 text-center text-[#233449] dark:text-[#f7ffff] leading-tight">Temukan Surga Pribadi Anda</h2>
+        <p class="text-lg sm:text-xl mb-8 sm:mb-10 md:mb-12 text-center text-[#233449] dark:text-[#f7ffff] max-w-3xl mx-auto">
           Setiap kamar dan suite kami adalah perpaduan sempurna antara kemewahan dan kenyamanan, dirancang untuk memberikan pengalaman menginap yang tak terlupakan.
         </p>
-        <div class="flex justify-center mb-12">
-          <button @click="activeRoom = 'standard'" :class="{ 'bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449]': activeRoom === 'standard', 'bg-[#a5e1f5] text-[#233449] dark:bg-[#1a2736] dark:text-[#f7ffff]': activeRoom !== 'standard' }" class="px-6 py-3 rounded-l-full text-lg font-semibold transition duration-300">Standar</button>
-          <button @click="activeRoom = 'deluxe'" :class="{ 'bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449]': activeRoom === 'deluxe', 'bg-[#a5e1f5] text-[#233449] dark:bg-[#1a2736] dark:text-[#f7ffff]': activeRoom !== 'deluxe' }" class="px-6 py-3 text-lg font-semibold transition duration-300">Deluxe</button>
-          <button @click="activeRoom = 'suite'" :class="{ 'bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449]': activeRoom === 'suite', 'bg-[#a5e1f5] text-[#233449] dark:bg-[#1a2736] dark:text-[#f7ffff]': activeRoom !== 'suite' }" class="px-6 py-3 rounded-r-full text-lg font-semibold transition duration-300">Suite</button>
+        <div class="flex justify-center mb-8 sm:mb-10 md:mb-12">
+          <button @click="activeRoom = 'standard'" :class="{ 'bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449]': activeRoom === 'standard', 'bg-[#a5e1f5] text-[#233449] dark:bg-[#1a2736] dark:text-[#f7ffff]': activeRoom !== 'standard' }" class="px-4 sm:px-6 py-2 sm:py-3 rounded-l-full text-sm sm:text-base md:text-lg font-semibold transition duration-300">Standar</button>
+          <button @click="activeRoom = 'deluxe'" :class="{ 'bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449]': activeRoom === 'deluxe', 'bg-[#a5e1f5] text-[#233449] dark:bg-[#1a2736] dark:text-[#f7ffff]': activeRoom !== 'deluxe' }" class="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base md:text-lg font-semibold transition duration-300">Deluxe</button>
+          <button @click="activeRoom = 'suite'" :class="{ 'bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449]': activeRoom === 'suite', 'bg-[#a5e1f5] text-[#233449] dark:bg-[#1a2736] dark:text-[#f7ffff]': activeRoom !== 'suite' }" class="px-4 sm:px-6 py-2 sm:py-3 rounded-r-full text-sm sm:text-base md:text-lg font-semibold transition duration-300">Suite</button>
         </div>
+    
         <!-- Standard Room -->
-        <div x-show="activeRoom === 'standard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" class="bg-white dark:bg-[#233449] p-8 rounded-lg shadow-xl">
-          <div class="flex flex-col md:flex-row">
-            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
-              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Standard Room" class="w-full h-64 object-cover rounded-lg shadow-md mb-4">
+        <div x-show="activeRoom === 'standard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" class="bg-white dark:bg-[#233449] p-4 sm:p-6 md:p-8 rounded-lg shadow-xl">
+          <div class="flex flex-col lg:flex-row">
+            <div class="lg:w-1/2 mb-6 lg:mb-0 lg:mr-8">
+              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Standard Room" class="w-full h-48 sm:h-64 object-cover rounded-lg shadow-md mb-4">
               <div class="grid grid-cols-3 gap-2">
-                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Bathroom" class="w-full h-20 object-cover rounded-lg">
-                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Room View" class="w-full h-20 object-cover rounded-lg">
-                <img src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Amenities" class="w-full h-20 object-cover rounded-lg">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Bathroom" class="w-full h-16 sm:h-20 object-cover rounded-lg">
+                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Room View" class="w-full h-16 sm:h-20 object-cover rounded-lg">
+                <img src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Amenities" class="w-full h-16 sm:h-20 object-cover rounded-lg">
               </div>
             </div>
-            <div class="md:w-1/2">
-              <h3 class="text-3xl font-bold mb-4 text-[#233449] dark:text-[#f7ffff]">Kamar Standar</h3>
-              <p class="mb-6 text-lg text-[#233449] dark:text-[#f7ffff]">Nikmati kenyamanan dan elegansi dalam kamar standar kami yang luas dan modern. Dengan luas 35m², kamar ini menawarkan pemandangan kota yang menakjubkan dan semua fasilitas yang Anda butuhkan untuk masa inap yang nyaman.</p>
-              <div class="mb-6">
-                <h4 class="text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Fasilitas Kamar:</h4>
-                <ul class="space-y-3 text-[#233449] dark:text-[#f7ffff]">
+            <div class="lg:w-1/2">
+              <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-[#233449] dark:text-[#f7ffff]">Kamar Standar</h3>
+              <p class="mb-4 sm:mb-6 text-base sm:text-lg text-[#233449] dark:text-[#f7ffff]">Nikmati kenyamanan dan elegansi dalam kamar standar kami yang luas dan modern. Dengan luas 35m², kamar ini menawarkan pemandangan kota yang menakjubkan dan semua fasilitas yang Anda butuhkan untuk masa inap yang nyaman.</p>
+              <div class="mb-4 sm:mb-6">
+                <h4 class="text-lg sm:text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Fasilitas Kamar:</h4>
+                <ul class="space-y-2 sm:space-y-3 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">
                   <li class="flex items-center">
                     <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Tempat tidur king-size dengan linen premium 300 thread count
+                    Tempat tidur king-size dengan linen premium
                   </li>
                   <li class="flex items-center">
                     <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Smart TV 55" dengan 100+ saluran internasional dan layanan streaming
+                    Smart TV 55" dengan 100+ saluran internasional
                   </li>
                   <li class="flex items-center">
                     <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     Wi-Fi berkecepatan tinggi (100 Mbps)
                   </li>
-                  <li class="flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Kamar mandi mewah dengan rainshower dan bathtub terpisah
-                  </li>
-                  <li class="flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Mini bar dengan pilihan minuman premium
-                  </li>
-                  <li class="flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Mesin kopi Nespresso dengan kapsul gratis
-                  </li>
                 </ul>
               </div>
-              <div class="mb-6">
-                <h4 class="text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Layanan Tambahan:</h4>
-                <ul class="space-y-2 text-[#233449] dark:text-[#f7ffff]">
+              <div class="mb-4 sm:mb-6">
+                <h4 class="text-lg sm:text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Layanan Tambahan:</h4>
+                <ul class="space-y-1 sm:space-y-2 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">
                   <li>• Room service 24 jam</li>
                   <li>• Layanan laundry ekspres</li>
                   <li>• Akses ke fitness center dan kolam renang</li>
-                  <li>• Concierge pribadi</li>
                 </ul>
               </div>
-              <div class="flex items-center justify-between mb-6">
-                <div>
-                  <span class="text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Rp 1.500.000</span>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6">
+                <div class="mb-2 sm:mb-0">
+                  <span class="text-xl sm:text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Rp 1.500.000</span>
                   <span class="text-sm text-gray-500 dark:text-gray-400">/malam</span>
                 </div>
                 <div class="flex items-center">
                   <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                  <span class="ml-1 text-lg font-semibold text-[#233449] dark:text-[#f7ffff]">4.8/5</span>
-                  <span class="ml-1 text-sm text-gray-500 dark:text-gray-400">(230 ulasan)</span>
+                  <span class="ml-1 text-base sm:text-lg font-semibold text-[#233449] dark:text-[#f7ffff]">4.8/5</span>
+                  <span class="ml-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">(230 ulasan)</span>
                 </div>
               </div>
-              <a href="#" class="inline-block bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-3 px-6 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300 transform hover:scale-105">Pesan Sekarang</a>
+              <a href="#" class="inline-block w-full sm:w-auto text-center bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300 transform hover:scale-105">Pesan Sekarang</a>
             </div>
           </div>
         </div>
 
         <!-- Deluxe Room -->
-        <div x-show="activeRoom === 'deluxe'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" class="bg-white dark:bg-[#233449] p-8 rounded-lg shadow-xl">
-          <div class="flex flex-col md:flex-row">
-            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
-              <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Deluxe Room" class="w-full h-64 object-cover rounded-lg shadow-md mb-4">
+        <div x-show="activeRoom === 'deluxe'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" class="bg-white dark:bg-[#233449] p-4 sm:p-6 md:p-8 rounded-lg shadow-xl">
+          <div class="flex flex-col lg:flex-row">
+            <div class="lg:w-1/2 mb-6 lg:mb-0 lg:mr-8">
+              <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Deluxe Room" class="w-full h-48 sm:h-64 object-cover rounded-lg shadow-md mb-4">
               <div class="grid grid-cols-3 gap-2">
-                <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Deluxe Bathroom" class="w-full h-20 object-cover rounded-lg">
-                <img src="https://images.unsplash.com/photo-1615874959474-d609969a20ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80" alt="Deluxe Room View" class="w-full h-20 object-cover rounded-lg">
-                <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80" alt="Deluxe Room Lounge" class="w-full h-20 object-cover rounded-lg">
+                <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Deluxe Bathroom" class="w-full h-16 sm:h-20 object-cover rounded-lg">
+                <img src="https://images.unsplash.com/photo-1615874959474-d609969a20ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80" alt="Deluxe Room View" class="w-full h-16 sm:h-20 object-cover rounded-lg">
+                <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80" alt="Deluxe Room Lounge" class="w-full h-16 sm:h-20 object-cover rounded-lg">
               </div>
             </div>
-            <div class="md:w-1/2">
-              <h3 class="text-3xl font-bold mb-4 text-[#233449] dark:text-[#f7ffff]">Kamar Deluxe</h3>
-              <p class="mb-6 text-lg text-[#233449] dark:text-[#f7ffff]">Nikmati kemewahan ekstra dalam kamar Deluxe kami yang luas. Dengan luas 45m², kamar ini menawarkan pemandangan panorama kota dan fasilitas premium untuk kenyamanan maksimal Anda.</p>
-              <div class="mb-6">
-                <h4 class="text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Fasilitas Kamar:</h4>
-                <ul class="space-y-3 text-[#233449] dark:text-[#f7ffff]">
+            <div class="lg:w-1/2">
+              <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-[#233449] dark:text-[#f7ffff]">Kamar Deluxe</h3>
+              <p class="mb-4 sm:mb-6 text-base sm:text-lg text-[#233449] dark:text-[#f7ffff]">Nikmati kemewahan ekstra dalam kamar Deluxe kami yang luas. Dengan luas 45m², kamar ini menawarkan pemandangan panorama kota dan fasilitas premium untuk kenyamanan maksimal Anda.</p>
+              <div class="mb-4 sm:mb-6">
+                <h4 class="text-lg sm:text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Fasilitas Kamar:</h4>
+                <ul class="space-y-2 sm:space-y-3 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">
                   <li class="flex items-center">
                     <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     Tempat tidur king-size dengan pillow-top mattress
@@ -297,48 +348,48 @@
                   </li>
                 </ul>
               </div>
-              <div class="mb-6">
-                <h4 class="text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Layanan Eksklusif:</h4>
-                <ul class="space-y-2 text-[#233449] dark:text-[#f7ffff]">
+              <div class="mb-4 sm:mb-6">
+                <h4 class="text-lg sm:text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Layanan Eksklusif:</h4>
+                <ul class="space-y-1 sm:space-y-2 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">
                   <li>• Akses ke Executive Lounge</li>
                   <li>• Butler pribadi 24/7</li>
                   <li>• Sarapan a la carte di kamar</li>
                   <li>• Layanan pijat in-room gratis (60 menit)</li>
                 </ul>
               </div>
-              <div class="flex items-center justify-between mb-6">
-                <div>
-                  <span class="text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Rp 2.500.000</span>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6">
+                <div class="mb-2 sm:mb-0">
+                  <span class="text-xl sm:text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Rp 2.500.000</span>
                   <span class="text-sm text-gray-500 dark:text-gray-400">/malam</span>
                 </div>
                 <div class="flex items-center">
                   <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                  <span class="ml-1 text-lg font-semibold text-[#233449] dark:text-[#f7ffff]">4.9/5</span>
-                  <span class="ml-1 text-sm text-gray-500 dark:text-gray-400">(180 ulasan)</span>
+                  <span class="ml-1 text-base sm:text-lg font-semibold text-[#233449] dark:text-[#f7ffff]">4.9/5</span>
+                  <span class="ml-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">(180 ulasan)</span>
                 </div>
               </div>
-              <a href="#" class="inline-block bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-3 px-6 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300 transform hover:scale-105">Pesan Sekarang</a>
+              <a href="#" class="inline-block w-full sm:w-auto text-center bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300 transform hover:scale-105">Pesan Sekarang</a>
             </div>
           </div>
         </div>
 
         <!-- Suite Room -->
-        <div x-show="activeRoom === 'suite'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" class="bg-white dark:bg-[#233449] p-8 rounded-lg shadow-xl">
-          <div class="flex flex-col md:flex-row">
-            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
-              <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Suite Room" class="w-full h-64 object-cover rounded-lg shadow-md mb-4">
+        <div x-show="activeRoom === 'suite'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" class="bg-white dark:bg-[#233449] p-4 sm:p-6 md:p-8 rounded-lg shadow-xl">
+          <div class="flex flex-col lg:flex-row">
+            <div class="lg:w-1/2 mb-6 lg:mb-0 lg:mr-8">
+              <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Suite Room" class="w-full h-48 sm:h-64 object-cover rounded-lg shadow-md mb-4">
               <div class="grid grid-cols-3 gap-2">
-                <img src="https://images.unsplash.com/photo-1631049552240-59c37f38802b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Suite Living Room" class="w-full h-20 object-cover rounded-lg">
-                <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Suite Bedroom" class="w-full h-20 object-cover rounded-lg">
-                <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Suite Balcony" class="w-full h-20 object-cover rounded-lg">
+                <img src="https://images.unsplash.com/photo-1631049552240-59c37f38802b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Suite Living Room" class="w-full h-16 sm:h-20 object-cover rounded-lg">
+                <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Suite Bedroom" class="w-full h-16 sm:h-20 object-cover rounded-lg">
+                <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Suite Balcony" class="w-full h-16 sm:h-20 object-cover rounded-lg">
               </div>
             </div>
-            <div class="md:w-1/2">
-              <h3 class="text-3xl font-bold mb-4 text-[#233449] dark:text-[#f7ffff]">Suite Mewah</h3>
-              <p class="mb-6 text-lg text-[#233449] dark:text-[#f7ffff]">Rasakan pengalaman menginap paling mewah di Suite kami yang spektakuler. Dengan luas 80m², suite ini menawarkan pemandangan 360 derajat kota dan fasilitas kelas atas untuk kenyamanan tak tertandingi.</p>
-              <div class="mb-6">
-                <h4 class="text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Fasilitas Suite:</h4>
-                <ul class="space-y-3 text-[#233449] dark:text-[#f7ffff]">
+            <div class="lg:w-1/2">
+              <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-[#233449] dark:text-[#f7ffff]">Suite Mewah</h3>
+              <p class="mb-4 sm:mb-6 text-base sm:text-lg text-[#233449] dark:text-[#f7ffff]">Rasakan pengalaman menginap paling mewah di Suite kami yang spektakuler. Dengan luas 80m², suite ini menawarkan pemandangan 360 derajat kota dan fasilitas kelas atas untuk kenyamanan tak tertandingi.</p>
+              <div class="mb-4 sm:mb-6">
+                <h4 class="text-lg sm:text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Fasilitas Suite:</h4>
+                <ul class="space-y-2 sm:space-y-3 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">
                   <li class="flex items-center">
                     <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     Kamar tidur terpisah dengan tempat tidur king-size
@@ -361,157 +412,196 @@
                   </li>
                 </ul>
               </div>
-              <div class="mb-6">
-                <h4 class="text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Layanan VIP:</h4>
-                <ul class="space-y-2 text-[#233449] dark:text-[#f7ffff]">
+              <div class="mb-4 sm:mb-6">
+                <h4 class="text-lg sm:text-xl font-semibold mb-2 text-[#233449] dark:text-[#f7ffff]">Layanan VIP:</h4>
+                <ul class="space-y-1 sm:space-y-2 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">
                   <li>• Akses VIP ke semua fasilitas hotel</li>
                   <li>• Butler pribadi 24/7 dan concierge khusus</li>
                   <li>• Transportasi gratis dari/ke bandara dengan limousine</li>
                   <li>• In-suite check-in dan late check-out hingga 16:00</li>
                 </ul>
               </div>
-              <div class="flex items-center justify-between mb-6">
-                <div>
-                  <span class="text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Rp 5.000.000</span>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6">
+                <div class="mb-2 sm:mb-0">
+                  <span class="text-xl sm:text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Rp 5.000.000</span>
                   <span class="text-sm text-gray-500 dark:text-gray-400">/malam</span>
                 </div>
                 <div class="flex items-center">
                   <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                  <span class="ml-1 text-lg font-semibold text-[#233449] dark:text-[#f7ffff]">5.0/5</span>
-                  <span class="ml-1 text-sm text-gray-500 dark:text-gray-400">(120 ulasan)</span>
+                  <span class="ml-1 text-base sm:text-lg font-semibold text-[#233449] dark:text-[#f7ffff]">5.0/5</span>
+                  <span class="ml-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">(120 ulasan)</span>
                 </div>
               </div>
-              <a href="#" class="inline-block bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-3 px-6 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300 transform hover:scale-105">Pesan Sekarang</a>
+              <a href="#" class="inline-block w-full sm:w-auto text-center bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300 transform hover:scale-105">Pesan Sekarang</a>
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
     <!-- Special Offers Section -->
-    <section id="facilities" class="py-20 bg-gradient-to-b from-[#ebf5ff] to-[#f7ffff] dark:from-[#1a2736] dark:to-[#0f0f19]">
+    <section id="special-offers" class="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-[#ebf5ff] to-[#f7ffff] dark:from-[#1a2736] dark:to-[#0f0f19]">
       <div class="container mx-auto px-4 max-w-6xl">
-        <h2 class="text-5xl font-bold mb-10 text-center text-[#233449] dark:text-[#f7ffff] leading-tight animate-on-scroll">Penawaran Eksklusif untuk Pengalaman Luar Biasa</h2>
-        <p class="text-xl mb-12 text-center text-[#233449] dark:text-[#f7ffff] max-w-3xl mx-auto animate-on-scroll">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 md:mb-10 text-center text-[#233449] dark:text-[#f7ffff] leading-tight animate-on-scroll">Penawaran Eksklusif untuk Pengalaman Luar Biasa</h2>
+        <p class="text-lg sm:text-xl mb-8 sm:mb-10 md:mb-12 text-center text-[#233449] dark:text-[#f7ffff] max-w-3xl mx-auto animate-on-scroll">
           Nikmati penawaran spesial kami dan buat kunjungan Anda lebih berkesan dengan harga terbaik dan manfaat eksklusif.
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Card -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           <!-- Early Booking Offer -->
-          <div class="bg-white dark:bg-[#233449] p-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300 animate-on-scroll flex flex-col justify-between">
+          <div class="bg-white dark:bg-[#233449] p-6 sm:p-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300 animate-on-scroll flex flex-col justify-between md:col-span-1">
             <div>
               <div class="flex items-center mb-4">
-                <svg class="w-8 h-8 mr-3 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Diskon Early Booking 25%</h3>
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 mr-3 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-xl sm:text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Diskon Early Booking 25%</h3>
               </div>
-              <p class="mb-6 text-[#233449] dark:text-[#f7ffff]">Rencanakan liburan Anda lebih awal dan nikmati diskon hingga 25% untuk pemesanan minimal 30 hari sebelum kedatangan.</p>
-              <ul class="space-y-2 mb-6 text-[#233449] dark:text-[#f7ffff]">
+              <p class="mb-4 sm:mb-6 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">Rencanakan liburan Anda lebih awal dan nikmati diskon hingga 25% untuk pemesanan minimal 30 hari sebelum kedatangan.</p>
+              <ul class="space-y-2 mb-4 sm:mb-6 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">
                 <li class="flex items-center">
-                  <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                   Sarapan gratis untuk 2 orang
                 </li>
                 <li class="flex items-center">
-                  <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                   Late check-out hingga pukul 14:00
                 </li>
                 <li class="flex items-center">
-                  <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                   Voucher spa senilai Rp 500.000
                 </li>
                 <li class="flex items-center">
-                  <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                   Akses gratis ke Executive Lounge
                 </li>
               </ul>
             </div>
-            <a href="#" class="inline-block bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-2 px-4 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300 text-center">
+            <a href="#" class="inline-block w-full text-center bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-2 px-4 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
               <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               Pesan Sekarang
             </a>
           </div>
 
           <!-- Honeymoon Package -->
-          <div class="bg-white dark:bg-[#233449] p-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300 animate-on-scroll flex flex-col justify-between">
-            <div class="flex items-center mb-4">
-              <svg class="w-8 h-8 mr-3 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
-              <h3 class="text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Paket Bulan Madu Romantis</h3>
+          <div class="bg-white dark:bg-[#233449] p-6 sm:p-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300 animate-on-scroll flex flex-col justify-between md:col-span-1">
+            <div>
+              <div class="flex items-center mb-4">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 mr-3 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path></svg>
+                <h3 class="text-xl sm:text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Paket Bulan Madu Romantis</h3>
+              </div>
+              <p class="mb-4 sm:mb-6 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">Rayakan cinta Anda dengan paket bulan madu kami yang penuh kemewahan dan romantisme.</p>
+              <ul class="space-y-2 mb-4 sm:mb-6 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">
+                <li class="flex items-center">
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Suite mewah dengan pemandangan kota
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Makan malam romantis di restoran rooftop
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Paket spa pasangan
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Dekorasi kamar spesial dan champagne
+                </li>
+              </ul>
             </div>
-            <p class="mb-6 text-[#233449] dark:text-[#f7ffff]">Rayakan cinta Anda dengan paket bulan madu kami yang penuh kemewahan dan romantisme.</p>
-            <ul class="space-y-2 mb-6 text-[#233449] dark:text-[#f7ffff]">
-              <li class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Suite mewah dengan pemandangan kota
-              </li>
-              <li class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Makan malam romantis di restoran rooftop
-              </li>
-              <li class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Paket spa pasangan
-              </li>
-              <li class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Dekorasi kamar spesial dan champagne
-              </li>
-            </ul>
-            <a href="#" class="inline-block bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-2 px-4 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300 text-center">
+            <a href="#" class="inline-block w-full text-center bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-2 px-4 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
               <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               Pesan Sekarang
             </a>
           </div>
 
           <!-- Family Package -->
-          <div class="bg-white dark:bg-[#233449] p-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300 animate-on-scroll flex flex-col justify-between">
-            <div class="flex items-center mb-4">
-              <svg class="w-8 h-8 mr-3 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-              <h3 class="text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Paket Keluarga Bahagia</h3>
+          <div class="bg-white dark:bg-[#233449] p-6 sm:p-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300 animate-on-scroll flex flex-col justify-between md:col-span-2 lg:col-span-1 md:mx-auto lg:mx-0">
+            <div>
+              <div class="flex items-center mb-4">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 mr-3 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <h3 class="text-xl sm:text-2xl font-bold text-[#233449] dark:text-[#f7ffff]">Paket Keluarga Bahagia</h3>
+              </div>
+              <p class="mb-4 sm:mb-6 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">Nikmati liburan keluarga yang tak terlupakan dengan paket khusus kami untuk seluruh anggota keluarga.</p>
+              <ul class="space-y-2 mb-4 sm:mb-6 text-sm sm:text-base text-[#233449] dark:text-[#f7ffff]">
+                <li class="flex items-center">
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Kamar connecting untuk keluarga
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Sarapan gratis untuk 2 dewasa dan 2 anak
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Akses gratis ke Kids Club
+                </li>
+                <li class="flex items-center">
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Voucher diskon 20% untuk semua restoran hotel
+                </li>
+              </ul>
             </div>
-            <p class="mb-6 text-[#233449] dark:text-[#f7ffff]">Nikmati liburan keluarga yang tak terlupakan dengan paket khusus kami untuk seluruh anggota keluarga.</p>
-            <ul class="space-y-2 mb-6 text-[#233449] dark:text-[#f7ffff]">
-              <li class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Kamar connecting untuk keluarga
-              </li>
-              <li class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Sarapan gratis untuk 2 dewasa dan 2 anak
-              </li>
-              <li class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Akses gratis ke Kids Club
-              </li>
-              <li class="flex items-center">
-                <svg class="w-5 h-5 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Voucher diskon 20% untuk semua restoran hotel
-              </li>
-            </ul>
-            <a href="#" class="inline-block bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-2 px-4 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300 text-center">
+            <a href="#" class="inline-block w-full text-center bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] font-bold py-2 px-4 rounded-full hover:bg-[#a5e1f5] hover:text-[#233449] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
               <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               Pesan Sekarang
             </a>
           </div>
         </div>
-
-            <!-- Special FOMO Promo Card -->
-            <div class="mt-12 bg-gradient-to-r from-[#233449] to-[#a5e1f5] p-1 rounded-lg shadow-xl animate-pulse">
-              <div class="bg-white dark:bg-[#1a2736] p-6 sm:p-8 rounded-lg">
-                <div class="flex flex-col sm:flex-row items-center mb-4">
-                  <svg class="w-10 h-10 mb-2 sm:mb-0 sm:mr-3 text-red-500 dark:text-red-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                  <h3 class="text-2xl sm:text-3xl font-bold text-[#233449] dark:text-[#f7ffff] text-center sm:text-left">Promo Kilat! Hanya 24 Jam</h3>
-                </div>
-                <p class="mb-6 text-[#233449] dark:text-[#f7ffff] text-lg sm:text-xl text-center sm:text-left">Dapatkan diskon tambahan 10% untuk semua pemesanan hari ini! Jangan lewatkan kesempatan emas ini.</p>
-                <div class="flex flex-col sm:flex-row justify-between items-center">
-                  <div class="text-2xl font-bold text-red-500 dark:text-red-400 mb-4 sm:mb-0" id="countdown">23:59:59</div>
-                  <a href="#" class="w-full sm:w-auto inline-block bg-red-500 text-white font-bold py-3 px-6 rounded-full hover:bg-red-600 dark:hover:bg-red-700 transition duration-300 transform hover:scale-105 text-center">
-                    <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    Pesan Sekarang
-                  </a>
+        <!-- Modal Promo Kilat -->
+        <div id="promoModal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+          <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <div class="px-4 pt-5 pb-4 bg-gradient-to-r from-[#233449] to-[#1a2736] sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                  <div class="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                    <svg class="w-6 h-6 text-[#a5e1f5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                    <h3 class="text-xl sm:text-2xl font-bold leading-6 text-white" id="modal-title">
+                      Penawaran Eksklusif
+                    </h3>
+                    <div class="mt-2">
+                      <p class="text-sm font-medium text-[#a5e1f5]">
+                        Berlaku hingga akhir hari ini
+                      </p>
+                      <p class="mt-2 text-sm sm:text-base text-white">
+                        Nikmati pengalaman menginap mewah dengan diskon spesial 20% untuk pemesanan hari ini di Hotel Megalux.
+                      </p>
+                      <ul class="mt-4 text-sm text-white space-y-2">
+                        <li class="flex items-center">
+                          <svg class="w-4 h-4 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                          Suite mewah dengan pemandangan kota
+                        </li>
+                        <li class="flex items-center">
+                          <svg class="w-4 h-4 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                          Sarapan gourmet untuk dua orang
+                        </li>
+                        <li class="flex items-center">
+                          <svg class="w-4 h-4 mr-2 text-[#a5e1f5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                          Akses eksklusif ke spa premium
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-col sm:items-center">
+                <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-[#233449] border border-transparent rounded-md shadow-sm hover:bg-[#1a2736] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#a5e1f5] sm:w-auto sm:text-sm mb-2 sm:mb-0">
+                  Pesan Sekarang - Tersisa <span id="roomCount" class="font-bold">10</span> Kamar
+                </button>
+                <button type="button" id="closeModal" class="mt-2 sm:mt-3 w-full inline-flex justify-center px-4 py-2 text-sm font-medium text-[#233449] bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#a5e1f5] sm:w-auto">
+                  Lihat Nanti
+                </button>
+              </div>
             </div>
+          </div>
         </div>
       </div>
-      
     </section>
 
     <!-- Gallery Section -->
@@ -523,11 +613,12 @@
             Nikmati pemandangan menakjubkan dan fasilitas mewah kami melalui galeri foto ini. Setiap sudut hotel kami dirancang untuk memberikan pengalaman tak terlupakan.
           </p>
         </div>
+      <div x-data="{ activeModal: null }">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           <div class="relative group">
             <img src="src/img/hotel-image-1.jpeg" alt="Hotel Megalux Image 1" class="w-full h-64 object-cover rounded-lg shadow-xl transition duration-300 group-hover:opacity-75">
             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100">
-              <button class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
+              <button @click="activeModal = 1" class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
                 Lihat Detail
               </button>
             </div>
@@ -535,7 +626,7 @@
           <div class="relative group">
             <img src="src/img/hotel-image-2.jpeg" alt="Hotel Megalux Image 2" class="w-full h-64 object-cover rounded-lg shadow-xl transition duration-300 group-hover:opacity-75">
             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100">
-              <button class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
+              <button @click="activeModal = 2" class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
                 Lihat Detail
               </button>
             </div>
@@ -543,7 +634,7 @@
           <div class="relative group">
             <img src="src/img/hotel-image-3.jpeg" alt="Hotel Megalux Image 3" class="w-full h-64 object-cover rounded-lg shadow-xl transition duration-300 group-hover:opacity-75">
             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100">
-              <button class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
+              <button @click="activeModal = 3" class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
                 Lihat Detail
               </button>
             </div>
@@ -553,7 +644,7 @@
           <div class="relative group w-full md:w-1/2 lg:w-1/3">
             <img src="src/img/hotel-image-4.jpeg" alt="Hotel Megalux Image 4" class="w-full h-64 object-cover rounded-lg shadow-xl transition duration-300 group-hover:opacity-75">
             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100">
-              <button class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
+              <button @click="activeModal = 4" class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
                 Lihat Detail
               </button>
             </div>
@@ -561,12 +652,47 @@
           <div class="relative group w-full md:w-1/2 lg:w-1/3">
             <img src="src/img/hotel-image-5.jpeg" alt="Hotel Megalux Image 5" class="w-full h-64 object-cover rounded-lg shadow-xl transition duration-300 group-hover:opacity-75">
             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition duration-300 opacity-0 group-hover:opacity-100">
-              <button class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
+              <button @click="activeModal = 5" class="bg-white text-[#233449] dark:bg-[#233449] dark:text-white px-4 py-2 rounded-full font-bold hover:bg-[#a5e1f5] dark:hover:bg-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
                 Lihat Detail
               </button>
             </div>
           </div>
         </div>
+        <!-- Modal templates -->
+        <template x-for="i in 5">
+          <div x-show="activeModal === i" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-center justify-center min-h-screen px-4 py-8 text-center sm:p-0">
+              <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" @click="activeModal = null"></div>
+              <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full max-h-[80vh] relative">
+                <div class="absolute top-0 right-0 pt-4 pr-4">
+                  <button @click="activeModal = null" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span class="sr-only">Close</span>
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 overflow-y-auto max-h-[calc(80vh-4rem)]">
+                  <div class="sm:flex sm:items-start">
+                    <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                      <h3 class="text-lg leading-6 font-medium text-gray-900 mb-2" id="modal-title">
+                        Detail Gambar
+                      </h3>
+                      <div class="mt-2">
+                        <img :src="'src/img/hotel-image-' + i + '.jpeg'" :alt="'Hotel Megalux Image ' + i" class="w-full h-auto object-contain rounded-lg max-h-[50vh]">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                  <button @click="activeModal = null" type="button" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm">
+                    Tutup
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
     </section>
 
@@ -809,149 +935,105 @@
       </div>
     </section>
 
-</main>
-<!-- Footer -->
-<footer class="bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] py-16">
-  <div class="container mx-auto px-4 max-w-6xl">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-      <div>
-        <h3 class="text-2xl font-bold mb-6">Hotel Megalux</h3>
-        <p class="mb-4">Pengalaman menginap mewah di jantung kota Jakarta.</p>
-        <p class="text-sm">Jl. Kemewahan No. 1, Jakarta Pusat<br>DKI Jakarta, Indonesia 10110</p>
-      </div>
-      <div>
-        <h4 class="text-xl font-semibold mb-6">Tautan Cepat</h4>
-        <ul class="space-y-3">
-          <li><a href="#home" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Beranda</a></li>
-          <li><a href="#about" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Tentang Kami</a></li>
-          <li><a href="#rooms" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Kamar & Suite</a></li>
-          <li><a href="#facilities" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Fasilitas</a></li>
-          <li><a href="#gallery" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Galeri</a></li>
-          <li><a href="#contact" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Kontak</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-xl font-semibold mb-6">Kebijakan</h4>
-        <ul class="space-y-3">
-          <li><a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Syarat & Ketentuan</a></li>
-          <li><a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Kebijakan Privasi</a></li>
-          <li><a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Karir</a></li>
-          <li><a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Blog</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-xl font-semibold mb-6">Ikuti Kami</h4>
-        <div class="flex space-x-4 mb-6">
-          <a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          </a>
-          <a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-          </a>
-          <a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
-          </a>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#233449] text-[#f7ffff] dark:bg-[#f7ffff] dark:text-[#233449] py-16">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div>
+          <h3 class="text-2xl font-bold mb-6">Hotel Megalux</h3>
+          <p class="mb-4">Pengalaman menginap mewah di jantung kota Jakarta.</p>
+          <p class="text-sm">Jl. Kemewahan No. 1, Jakarta Pusat<br>DKI Jakarta, Indonesia 10110</p>
         </div>
-        <div class="mb-6">
-          <h5 class="text-lg font-semibold mb-2">Lokasi Kami</h5>
-          <div class="w-full h-48 rounded-lg overflow-hidden">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.6664463317476!2d106.82495931476884!3d-6.17551989551853!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1650123456789!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div>
+          <h4 class="text-xl font-semibold mb-6">Tautan Cepat</h4>
+          <ul class="space-y-3">
+            <li><a href="#home" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Beranda</a></li>
+            <li><a href="#about" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Tentang Kami</a></li>
+            <li><a href="#rooms" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Kamar & Suite</a></li>
+            <li><a href="#facilities" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Fasilitas</a></li>
+            <li><a href="#gallery" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Galeri</a></li>
+            <li><a href="#contact" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Kontak</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold mb-6">Kebijakan</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Kebijakan Privasi</a></li>
+            <li><a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Karir</a></li>
+            <li><a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold mb-6">Ikuti Kami</h4>
+          <div class="flex space-x-4 mb-6">
+            <a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+            </a>
+            <a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+            </a>
+          </div>
+          <div class="mb-6">
+            <h5 class="text-lg font-semibold mb-2">Lokasi Kami</h5>
+            <div class="w-full h-48 rounded-lg overflow-hidden">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.6664463317476!2d106.82495931476884!3d-6.17551989551853!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2e764b12d%3A0x3d2ad6e1e0e9bcc8!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1650123456789!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-300 dark:border-gray-700">
+        <div class="flex flex-col sm:flex-row justify-between items-center">
+          <p class="text-sm text-center sm:text-left mb-4 sm:mb-0 text-gray-200 dark:text-gray-800">
+            &copy; 2024 Hotel Megalux. Hak Cipta Dilindungi. Created with 
+            <span class="inline-block animate-pulse text-red-600 dark:text-red-400">❤️</span> by 
+            <a href="https://www.instagram.com/bahaskoding/" target="_blank" rel="noopener noreferrer" class="font-medium text-blue-600 dark:text-blue-400 hover:underline">@bahaskoding</a> 
+            using 
+            <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" class="font-medium text-blue-600 dark:text-blue-400 hover:underline">Tailwind CSS</a>
+          </p>
+          <div class="flex space-x-4 text-sm text-gray-200 dark:text-gray-800">
+            <a href="#" class="hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Kebijakan Privasi</a>
+            <span class="hidden sm:inline text-gray-500 dark:text-gray-400">|</span>
+            <a href="#" class="hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Syarat & Ketentuan</a>
           </div>
         </div>
       </div>
     </div>
-    <div class="mt-12 pt-8 border-t border-gray-700 dark:border-gray-300">
-      <div class="flex flex-col sm:flex-row justify-between items-center">
-        <p class="text-sm text-center sm:text-left mb-4 sm:mb-0">&copy; 2024 Hotel Megalux. Hak Cipta Dilindungi. Created with <span class="text-red-500">&#10084;</span> by <a href="https://instagram.com/bahaskoding" target="_blank" rel="noopener noreferrer" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">@bahaskoding</a></p>
-        <div class="flex space-x-4 text-sm">
-          <a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Kebijakan Privasi</a>
-          <span class="hidden sm:inline">|</span>
-          <a href="#" class="hover:text-[#a5e1f5] dark:hover:text-[#233449] transition duration-300">Syarat & Ketentuan</a>
-        </div>
+  </footer>
+
+  <!-- To Top Button -->
+  <button
+    x-data="scrollToTop"
+    x-show="showToTop"
+    @click="scrollToTop"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 transform translate-y-2"
+    x-transition:enter-end="opacity-100 transform translate-y-0"
+    x-transition:leave="transition ease-in duration-300"
+    x-transition:leave-start="opacity-100 transform translate-y-0"
+    x-transition:leave-end="opacity-0 transform translate-y-2"
+    class="fixed bottom-24 right-4 p-1 rounded-full shadow-lg focus:outline-none z-40"
+  >
+    <div class="relative">
+      <div class="absolute inset-0 bg-white dark:bg-[#233449] rounded-full"></div>
+      <div class="relative bg-[#233449] dark:bg-[#f7ffff] text-white dark:text-[#233449] p-2 rounded-full hover:bg-[#1a2736] dark:hover:bg-[#ebf5ff] transition duration-300">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
       </div>
     </div>
-  </div>
-</footer>
-<!-- To Top Button -->
-<button
-  x-data="scrollToTop"
-  x-show="showToTop"
-  @click="scrollToTop"
-  x-transition:enter="transition ease-out duration-300"
-  x-transition:enter-start="opacity-0 transform translate-y-2"
-  x-transition:enter-end="opacity-100 transform translate-y-0"
-  x-transition:leave="transition ease-in duration-300"
-  x-transition:leave-start="opacity-100 transform translate-y-0"
-  x-transition:leave-end="opacity-0 transform translate-y-2"
-  class="fixed bottom-8 right-8 p-1 rounded-full shadow-lg focus:outline-none"
->
-  <div class="relative">
-    <div class="absolute inset-0 bg-white dark:bg-[#233449] rounded-full"></div>
-    <div class="relative bg-[#233449] dark:bg-[#f7ffff] text-white dark:text-[#233449] p-2 rounded-full hover:bg-[#1a2736] dark:hover:bg-[#ebf5ff] transition duration-300">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-      </svg>
-    </div>
-  </div>
-</button>
-<script>
+  </button>
 
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth'
-      });
-    });
-  });
-
- 
-  document.addEventListener('alpine:init', () => {
-    Alpine.data('scrollToTop', () => ({
-      showToTop: false,
-      init() {
-        window.addEventListener('scroll', () => {
-          this.showToTop = window.pageYOffset > 100;
-        });
-      },
-      scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }));
-  });
-
-  // Countdown Timer for FOMO Promo
-  function updateCountdown() {
-    const countdownElement = document.getElementById('countdown');
-    if (!countdownElement) return; // Add this line to prevent errors if element doesn't exist
-
-    let time = countdownElement.innerHTML;
-    let [hours, minutes, seconds] = time.split(':').map(Number);
-
-    if (seconds > 0) {
-      seconds--;
-    } else {
-      if (minutes > 0) {
-        minutes--;
-        seconds = 59;
-      } else {
-        if (hours > 0) {
-          hours--;
-          minutes = 59;
-          seconds = 59;
-        } else {
-          countdownElement.innerHTML = "Promo Berakhir!";
-          return;
-        }
-      }
-    }
-
-    countdownElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    setTimeout(updateCountdown, 1000);
-  }
-
-  updateCountdown();
-</script>
+  <!-- Tombol Promo Kilat (muncul setelah modal ditutup) -->
+  <button id="promoButton" class="fixed bottom-4 right-4 bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:from-red-600 hover:to-pink-600 transition duration-300 hidden z-50 animate-pulse-scale">
+    <span class="mr-2">🎉</span>
+    Promo Kilat!
+    <span class="ml-2">⚡</span>
+  </button>
 </body>
 </html>
